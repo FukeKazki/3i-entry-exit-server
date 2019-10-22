@@ -47,13 +47,20 @@ app.get('/api/v1/ranking', async (req, res) => {
     // ソートを行う
     console.log(result)
     // レスポンス処理
-    res.send('This is Ranking List')
+    res.send(result)
 })
 
 // タイムログの取得
 app.get('/api/v1/time_log', async (req, res) => {
     const result = await db.query('SELECT * FROM time_log')
     res.send(result)
+})
+
+// 名前一覧の取得
+app.get('/api/v1/names', async (req, res) => {
+    const result = await db.query('SELECT DISTINCT user_handle FROM time_log')
+    const names = result.map(x => x.user_handle)
+    res.send(names)
 })
 
 /* ======================= */

@@ -18,6 +18,7 @@ module.exports = class db {
             ssl: true,
         })
     }
+
     // 通常クエリ
     async query(param) {
         const client = await this.pool.connect()
@@ -28,11 +29,19 @@ module.exports = class db {
         return rows
     }
 
-    //時刻投稿用クエリ
-    async timePost(user_handle, conditions, time) {
-        const insertText = 'INSERT INTO time_log (user_handle, conditions, time) VALUES ($1, $2, $3)'
+    // 入場時間投稿
+    async entryPost(user_handle, time) {
+        const insert_text = 'INSERT INTO entry (user_handle, entry_time) VALUES ($1, $2)'
         const client = await this.pool.connect()
-        await client.query(insertText, [user_handle, conditions, time])
+        await client.query(insert_text, [user_handle, time])
+        client.release()
+    }
+
+    // 退場時間投稿
+    async exitPost(user_handle, time) {
+        const insert_text = 'INSERT INTO exit (user_handle, exit_time) VALUES ($1, $2)'
+        const client = await this.pool.connect()
+        await client.query(insert_text, [user_handle, time])
         client.release()
     }
 }

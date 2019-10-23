@@ -13,7 +13,7 @@ app.use(function (req, res, next) {
 app.use(express.json())
 app.use(express.urlencoded({
     extended: true
-}));
+}))
 
 // データベースの準備
 const db = new database

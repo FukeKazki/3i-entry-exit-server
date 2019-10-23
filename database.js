@@ -8,14 +8,18 @@ import config from './config'
 module.exports = class db {
     constructor() {
         // プールの作成
+        /* テスト用
         this.pool = new Pool({
             host: config.database_host,
             database: config.database_name,
             user: config.database_user,
             port: config.database_port,
             password: config.database_password,
-            // sslをtrueにしないとうまくいかない
             ssl: true,
+        })
+        */
+        this.pool = new Pool({
+            connectionString: process.env.DATABASE_URL
         })
     }
 

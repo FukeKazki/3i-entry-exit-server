@@ -3,7 +3,7 @@ import {
 } from 'pg'
 
 // テスト用環境変数の取得
-import config from './config'
+// import config from './config'
 
 module.exports = class db {
     constructor() {

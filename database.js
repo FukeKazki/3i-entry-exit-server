@@ -8,16 +8,14 @@ import {
 module.exports = class db {
     constructor() {
         // プールの作成
-        /* テスト用
-        this.pool = new Pool({
-            host: config.database_host,
-            database: config.database_name,
-            user: config.database_user,
-            port: config.database_port,
-            password: config.database_password,
-            ssl: true,
-        })
-        */
+        // this.pool = new Pool({
+        //     host: config.database_host,
+        //     database: config.database_name,
+        //     user: config.database_user,
+        //     port: config.database_port,
+        //     password: config.database_password,
+        //     ssl: true,
+        // })
         this.pool = new Pool({
             connectionString: process.env.DATABASE_URL
         })
@@ -37,7 +35,11 @@ module.exports = class db {
     async entryPost(user_handle, time) {
         const insert_text = 'INSERT INTO entry (user_handle, entry_time) VALUES ($1, $2)'
         const client = await this.pool.connect()
-        await client.query(insert_text, [user_handle, time])
+        try {
+            await client.query(insert_text, [user_handle, time])
+        } catch (err) {
+            console.log("Entry POST ERROR", err)
+        }
         client.release()
     }
 
@@ -45,7 +47,11 @@ module.exports = class db {
     async exitPost(user_handle, time) {
         const insert_text = 'INSERT INTO exit (user_handle, exit_time) VALUES ($1, $2)'
         const client = await this.pool.connect()
-        await client.query(insert_text, [user_handle, time])
+        try {
+            await client.query(insert_text, [user_handle, time])
+        } catch (err) {
+            console.log("Exit POST ERROR", err)
+        }
         client.release()
     }
 }

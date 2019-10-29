@@ -23,7 +23,7 @@ const db = new database
 
 // 接続テスト
 app.get('/', async (req, res) => {
-    res.send('Hello World')
+    res.status(200).send('Hello World').end()
 })
 
 // 時刻投稿
@@ -34,7 +34,9 @@ app.post('/api/v1/post_time', (req, res) => {
         conditions,
         time
     } = req.body
-
+    if (user_handle === null || user_handle === undefined) return res.status(400).send("Error: user_handle is not defined").end()
+    if (conditions === null || conditions === undefined) return res.status(400).send("Error: condition is not defined").end()
+    if (time === null || time === undefined) return res.status(400).send("Error: time is not defined").end()
     // データベースへの登録を行う
     switch (conditions) {
         case '入場':
@@ -45,7 +47,7 @@ app.post('/api/v1/post_time', (req, res) => {
             break;
     }
     // レスポンス処理
-    res.send("success")
+    return res.status(201).send("success").end()
 })
 
 // ランキング取得
@@ -54,26 +56,26 @@ app.get('/api/v1/ranking', async (req, res) => {
     // 入場テーブルと退場テーブルを結合させ、時間差を求める
     const result = await db.query('SELECT entry.user_handle as name, exit_time - entry_time as play_time FROM entry INNER JOIN exit ON entry.user_handle = exit.user_handle ORDER BY play_time ASC')
     // レスポンス処理
-    res.send(result)
+    return res.status(200).send(result).end()
 })
 
 // 入場表の取得
 app.get('/api/v1/entry', async (req, res) => {
     const result = await db.query('SELECT * FROM entry')
-    res.send(result)
+    return res.status(200).send(result).end()
 })
 
 // 退場表の取得
 app.get('/api/v1/exit', async (req, res) => {
     const result = await db.query('SELECT * FROM exit')
-    res.send(result)
+    return res.status(200).send(result).end()
 })
 
 // 名前一覧の取得
 app.get('/api/v1/names', async (req, res) => {
     const result = await db.query('SELECT DISTINCT user_handle FROM entry')
     const names = result.map(x => x.user_handle)
-    res.send(names)
+    return res.status(200).send(names).end()
 })
 
 /* ======================= */

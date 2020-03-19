@@ -1,5 +1,6 @@
 # Server of 3i-entry-exit
 
+<p align='center'>URL:  https://server-3i-entry-exit.herokuapp.com</p>
 <p align='center'>はてなブログ:  https://is.gd/yDZqUV</p>
 
 ## Description

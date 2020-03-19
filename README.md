@@ -1,7 +1,16 @@
 # Server of 3i-entry-exit
-入退場システム用サーバ
-## API仕様
 
+<p align='center'>はてなブログ:  https://is.gd/yDZqUV</p>
+
+## Description
+入退場システム用サーバ
+
+## 環境
+- heroku
+- heroku-postgre
+- express
+
+## API仕様
 ### 時刻投稿
 **route**  
 POST ```/api/v1/post_time```  
@@ -46,4 +55,3 @@ GET ```/api/v1/exit```
 **response**  
 200  
 ```[{ id: number, name: string, exit_time: date }]```  
-
